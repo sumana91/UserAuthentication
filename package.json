@@ -1,0 +1,17 @@
+{
+  "name": "slicepay",
+  "version": "1.0.0",
+  "description": "\"user authentication\"",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sumana",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "jsonwebtoken": "^8.4.0",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0"
+  }
+}
