@@ -29,10 +29,15 @@ is used to manage the user authentication.
 ### Set of Endpoints implemented
 - To register as a parent user: `/register/parentUser` 
   Give the user details in the body.
-- To register as a child user: `/register/childUser`
-- To Login `/login`
-- To list all child users by a parent user: `/parentUser/:referral_code`
-- To edit/update the child user details: `/parentUser/update/childuser/:userId`
+  - **Method : POST**
+- To register as a child user: `/register/childUser`  
+  - **Method : POST**
+- To Login `/login` . 
+  - **Method : POST**
+- To list all child users by a parent user: `/parentUser/:referral_code` 
+  - **Method : GET**
+- To edit/update the child user details: `/parentUser/update/childuser/:userId` 
+  - **Method : PUT**
                                           
   
 
