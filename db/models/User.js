@@ -2,7 +2,7 @@ var bookshelf = require('../initialize');
 
 var User = bookshelf.Model.extend({
   tableName: 'User',
-  //hasTimestamps : true,
+  hasTimestamps : true,
   hidden: ['password']
 });
 
