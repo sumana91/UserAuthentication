@@ -1,4 +1,3 @@
-// Update with your config settings.
 module.exports = {
   development: {
     client: 'postgresql',
@@ -10,5 +9,5 @@ module.exports = {
     migrations: {
       tableName: 'knex_migrations'
     }
-  },
+  }
 };
