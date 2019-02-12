@@ -26,7 +26,7 @@ is used to manage the user authentication.
 ### Run the code locally
 - `node app.js`
 
-### Endpoints exposed
+### Set of Endpoints implemented
 - To register as a parent user: `/register/parentUser` 
   Give the user details in the body.
 - To register as a child user: `/register/childUser`
