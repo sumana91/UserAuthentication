@@ -2,8 +2,9 @@ var express = require('express');
 var router = express.Router();
 var parentUser = require('../db/models/parentUser')
 var User = require('../db/models/User')
+var childUser = require('../db/models/childUser')
 
-
+//Endpoint to list all the parent users
 router.get('/', function(req,res, next){
   parentUser
   .fetchAll()
@@ -15,26 +16,11 @@ router.get('/', function(req,res, next){
   });
 })
 
-
-router.post('/', function(req,res, next){
-  parentUser.forge({
-    id : req.body.id,    
-    referralcode : req.body.referralcode
-  })
-  .save()
-  .then(function (parentUser) {
-    res.json({error: false, data: parentUser.toJSON()});
-  })
-  .catch(function (err) {
-    res.status(500).json({error: true, data: {message: err.message}});
-  });
-});
-
-
-router.get('/:referralcode',function (req, res) {
-  var users = User.forge();
-   users = users.query({where:{ referralcode: req.params.referralcode }});
-   users
+//Endpoint to list all the child users using referral code
+router.get('/:referral_code',function (req, res) {
+  var childUsers = childUser.forge();
+   childUsers = childUsers.query({where:{referral_code: req.params.referral_code }});
+   childUsers
    .fetchAll()
    .then(function (users) {
       res.json({error: false, data: users.toJSON()});
@@ -44,9 +30,9 @@ router.get('/:referralcode',function (req, res) {
     });
 })
 
-
-router.put('/update/:referralcode/user/:id', function(req,res) {
-  User.forge({id: req.params.id, referralcode : req.params.referralcode})
+//Endpoint to update/edit the child users profile
+router.put('/update/childuser/:userId', function(req,res) {
+  User.forge({id: req.params.userId })
   .fetch({require: true})
   .then(function (users) {
     users.save({
@@ -66,6 +52,5 @@ router.put('/update/:referralcode/user/:id', function(req,res) {
     res.status(500).json({error: true, data: {message: err.message}});
   });
 })
-
 
 module.exports = router
