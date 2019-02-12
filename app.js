@@ -15,9 +15,6 @@ app.set('view engine', 'ejs')
 
 // Public Folder
 app.use(express.static('./public'))
-
-//app.get('/demo', (req, res) => res.render('index'))
-
 app.use('/register',register)
 app.use('/login',login)
 app.use('/parentUser', parentUser)
