@@ -13,7 +13,7 @@ passport.use(new LocalStrategy(
     var databaseMatchParameter = {}
 
     if(usernameMatch){
-      databaseMatchParameter = {'username': username}
+      databaseMatchParameter = {'firstname': username}
     }
     else {
       return done(null, false, { message: 'username format is wrong' })
@@ -22,6 +22,7 @@ passport.use(new LocalStrategy(
     new UserAuthentication(databaseMatchParameter)
       .fetch()
       .then(function(result){
+        console.log(result)
         if(!result){
           return done(null, false, { message: 'Incorrect username' })
         }
@@ -54,6 +55,5 @@ router.post('/', function(req,res, next){
     return res.json({status:200,message:'Login Success', token: token})
   })(req, res, next)
 })
-
 
 module.exports = router
