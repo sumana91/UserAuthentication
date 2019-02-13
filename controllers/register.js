@@ -47,7 +47,7 @@ router.post('/parentUser', function(req,res,next) {
   .then(function (result) {
     if (result) {
       return res.status(409).json({error:true,status:409,
-        message:'Email already registered'})
+        message:'This email already registered'})
     } else {
       var salt = configFile.salt
       var hashGenerationPromise = promise.promisify(crypto.randomBytes)
@@ -70,10 +70,10 @@ router.post('/parentUser', function(req,res,next) {
         var parentTable = new parentUser()
         return parentTable.save(parent_data)
       })
-      .then(function() {
+      .then(function(result) {
         errorFlag = false
         status = 200
-        message = 'User registered successfully'
+        message = 'User registered successfully. Your referal code is:'+result.get('referral_code')
       })
       .catch(TypeError,ReferenceError,RangeError,function(error) {
         errorFlag = true
