@@ -21,7 +21,6 @@ router.post('/parentUser', function(req,res,next) {
     password : '',
     email: ''
   }
-
   var parent_data = {
     referral_code : '',
     user_id: ''
@@ -97,40 +96,39 @@ router.post('/childUser', function(req,res, next){
   var status = ''
   var message = ''
   var errorFlag = ''
-
+  
   var data = {
     firstname : '',
     password : '',
     email: ''
   }
-
   var child_data = {
     referral_code : '',
     userId : ''
   }
 
-  if(!req.body.referral_code){
+  if(!req.body.referral_code) {
     return res.json({status:403,message:'referral_code missing'})
   }
-  else{
+  else {
     child_data.referral_code = req.body.referral_code
   }
-  if(!req.body.firstname){
+  if(!req.body.firstname) {
     return res.json({status:403,message:'firstname missing'})
   }
-  else{
+  else {
     data.firstname = req.body.firstname
   }
-  if(!req.body.password){
+  if(!req.body.password) {
     return res.json({status:403,message:'Password missing'})
   }
-  else{
+  else {
     data.password = req.body.password
   }
-  if(!req.body.email){
+  if(!req.body.email) {
     return res.json({status:403,message:'email missing'})
   }
-  else{
+  else {
     data.email = req.body.email
   }
 
@@ -140,54 +138,50 @@ router.post('/childUser', function(req,res, next){
     if (!result) {
       res.status(404).json({error: true, data:{message: 'referral code is not valid'}});
     } else {
-      UserAuthentication.fetchAll({columns : ['firstname','email']})
-      .then(function(result) {
-        for(var i=0; i<result.models.length;i++){
-          if(data.email == result.models[i].attributes.email){
+      UserAuthentication.where({email : data.email})
+      .fetch({columns:['email']})
+      .then(function (result) {
+        if (result) {
             return res.status(409).json({error:true,status:409,
               message:'Email already registered'})
+          } else {
+            var salt = configFile.salt
+            var hashGenerationPromise = promise.promisify(crypto.randomBytes)
+            hashGenerationPromise(configFile.bytesForHash)
+            .then(function(buffer){
+              return buffer.toString('hex')
+            })
+            .then(function() {
+              return bcrypt.hashSync(req.body.password, salt)
+            })
+            .then(function(result) {
+              data.password = result
+              var UserTable = new UserAuthentication()
+              return UserTable.save(data)
+            })
+            .then(function(result) {
+              child_data.userId = result.get('id')
+              var childTable = new childUser()
+              return childTable.save(child_data)
+            })
+            .then(function() {
+              errorFlag = false
+              status = 200
+              message = 'User registered successfully'
+            })
+            .catch(TypeError,ReferenceError,RangeError,function(error) {
+              errorFlag = true
+              status = 501
+              console.log(error)
+              message = error.stack
+            })
+            .finally(function() {
+              res.json({error:errorFlag,status:status,message:message})
+            })
           }
-          if (data.firstname == result.models[i].attributes.firstname){
-            return res.status(409).json({error:true,status:409,
-              message:'Username already registered'})
-          }
-        }
-        var salt = configFile.salt
-        var hashGenerationPromise = promise.promisify(crypto.randomBytes)
-        hashGenerationPromise(configFile.bytesForHash)
-        .then(function(buffer){
-          return buffer.toString('hex')
         })
-        .then(function() {
-          return bcrypt.hashSync(req.body.password, salt)
-        })
-        .then(function(result) {
-          data.password = result
-          var UserTable = new UserAuthentication()
-          return UserTable.save(data)
-        })
-        .then(function(result) {
-          child_data.userId = result.get('id')
-          var childTable = new childUser()
-          return childTable.save(child_data)
-        })
-        .then(function() {
-          errorFlag = false
-          status = 200
-          message = 'User registered successfully'
-        })
-        .catch(TypeError,ReferenceError,RangeError,function(error) {
-          errorFlag = true
-          status = 501
-          console.log(error)
-          message = error.stack
-        })
-        .finally(function() {
-          res.json({error:errorFlag,status:status,message:message})
-        })
-      })
-    }
-  })
+      }
+   })
 })
 
 module.exports = router
