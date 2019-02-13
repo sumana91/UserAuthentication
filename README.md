@@ -1,4 +1,4 @@
-## User_Authentication
+## UserAuthentication
 Application that provides the user to Register and Login with the help of referral code, using Nodejs. JWT authentication 
 is used to manage the user authentication.
 
