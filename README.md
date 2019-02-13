@@ -1,9 +1,9 @@
 ## User_Authentication
-Application that provides the user to Register/Login with the help of referral code, using Nodejs. JWT authentication 
+Application that provides the user to Register and Login with the help of referral code, using Nodejs. JWT authentication 
 is used to manage the user authentication.
 
 ### Usecases supported:
-- A user can register as a parent user, and can generate a referral code. 
+- A user can register as a parent user, and will generate a referral code. 
 - A user can register as a child user only by using the parent's referral code.
 - Authentication is handled using JWT. 
 - A parent user can list all his child users and edit their profile. 
