@@ -23,21 +23,21 @@ passport.use(new LocalStrategy(
       .fetch()
       .then(function(result){
         console.log(result)
-        if(!result){
+        if(!result) {
           return done(null, false, { message: 'Incorrect username' })
         }
-        else{
+        else {
           var res = bcrypt.compareSync(password, result.attributes.password)
-          if(res){
+          if(res) {
             return done(null, result)
           }
-          else{
+          else {
             return done(null, false, { message: 'Incorrect password. Please'
               + ' enter the password again'})
           }
         }
       })
-      .catch(function(error){
+      .catch(function(error) {
         return done(error)
       })
   }
