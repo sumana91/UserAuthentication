@@ -28,20 +28,17 @@ router.post('/parentUser', function(req,res,next) {
 
   if(!req.body.firstname) {
     return res.json({status:403,message:'firstname missing'})
-  }
-  else {
+  } else {
     data.firstname = req.body.firstname
   }
   if(!req.body.password) {
     return res.json({status:403,message:'Password missing'})
-  }
-  else {
+  } else {
     data.password = req.body.password
   }
   if(!req.body.email){
     return res.json({status:403,message:'email missing'})
-  }
-  else {
+  } else {
     data.email = req.body.email
   }
 
@@ -96,7 +93,7 @@ router.post('/childUser', function(req,res, next){
   var status = ''
   var message = ''
   var errorFlag = ''
-  
+
   var data = {
     firstname : '',
     password : '',
@@ -109,26 +106,22 @@ router.post('/childUser', function(req,res, next){
 
   if(!req.body.referral_code) {
     return res.json({status:403,message:'referral_code missing'})
-  }
-  else {
+  } else {
     child_data.referral_code = req.body.referral_code
   }
   if(!req.body.firstname) {
     return res.json({status:403,message:'firstname missing'})
-  }
-  else {
+  } else {
     data.firstname = req.body.firstname
   }
   if(!req.body.password) {
     return res.json({status:403,message:'Password missing'})
-  }
-  else {
+  } else {
     data.password = req.body.password
   }
   if(!req.body.email) {
     return res.json({status:403,message:'email missing'})
-  }
-  else {
+  } else {
     data.email = req.body.email
   }
 
