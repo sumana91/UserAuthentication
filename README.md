@@ -43,4 +43,4 @@ is used to manage the user authentication.
  <img width="600" alt="db_setup" src="https://user-images.githubusercontent.com/21328393/52704504-b6d50080-2fa6-11e9-8122-4d40497ca95d.png">
  
  ### Results
-The output of all the endpoints can be viewed in the **Result_images** folder
+The output of all the endpoints can be viewed in the **images** folder
